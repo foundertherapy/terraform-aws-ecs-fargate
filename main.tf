@@ -217,9 +217,9 @@ resource "aws_ecs_task_definition" "task" {
   "secrets": ${jsonencode(var.task_container_secrets)},
   %{~endif}
   "environment": ${jsonencode(local.task_environment)}
-}%{for entry in var.additional_containers~}
-,${entry}
-%{~endfor}
+}%{for entry in var.additional_containers ~}
+,${jsonencode(entry)}
+%{endfor ~}
 ]
 EOF
 
