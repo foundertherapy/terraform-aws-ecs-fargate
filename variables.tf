@@ -25,6 +25,10 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
+variable "file_system_id" {
+  type        = string
+}
+
 variable "cluster_id" {
   description = "The Amazon Resource Name (ARN) that identifies the cluster."
   type        = string

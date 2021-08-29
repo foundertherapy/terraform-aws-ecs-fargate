@@ -89,6 +89,39 @@ resource "aws_security_group_rule" "egress_service" {
   ipv6_cidr_blocks  = ["::/0"]
 }
 
+resource "aws_efs_mount_target" "efs-mount" {
+  count                     = 1
+
+  file_system_id            = var.file_system_id
+  subnet_id                 = var.private_subnet_ids[count.index]
+
+  security_groups           = [aws_security_group.efs-sg.id]
+}
+
+resource "aws_efs_access_point" "efs-access-point" {
+  file_system_id = var.file_system_id
+}
+
+resource "aws_security_group" "efs-sg" {
+  name        = "cubejs-efs-sg"
+  description = "Allow traffic from self"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port = 2049
+    to_port   = 2049
+    protocol  = "tcp"
+    security_groups = [aws_security_group.ecs_service.id]
+  }
+}
+
 #####
 # Load Balancer Target group
 #####
