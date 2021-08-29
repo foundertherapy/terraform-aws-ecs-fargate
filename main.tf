@@ -95,7 +95,7 @@ resource "aws_security_group_rule" "ingress_service" {
   protocol                 = "tcp"
   from_port                = 2049
   to_port                  = 2049
-  cidr_blocks       = [""]
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 #####
