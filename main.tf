@@ -95,8 +95,6 @@ resource "aws_security_group_rule" "ingress_service" {
   protocol                 = "nfs"
   from_port                = 2049
   to_port                  = 2049
-  cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
 }
 
 #####
