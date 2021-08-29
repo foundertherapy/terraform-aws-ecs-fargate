@@ -92,7 +92,7 @@ resource "aws_security_group_rule" "egress_service" {
 resource "aws_security_group_rule" "ingress_service" {
   security_group_id        = aws_security_group.ecs_service.id
   type                     = "ingress"
-  protocol                 = "nfs"
+  protocol                 = "tcp"
   from_port                = 2049
   to_port                  = 2049
   cidr_blocks       = [""]
