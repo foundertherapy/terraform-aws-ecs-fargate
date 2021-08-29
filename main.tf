@@ -142,6 +142,15 @@ locals {
   ]
 }
 
+locals {
+  task_port_mappings = [
+    for k, v in var.task_container_port_mappings : {
+      name  = k
+      value = v
+    }
+  ]
+}
+
 resource "aws_ecs_task_definition" "task" {
   family                   = var.name_prefix
   execution_role_arn       = aws_iam_role.execution.arn
@@ -161,19 +170,7 @@ resource "aws_ecs_task_definition" "task" {
   },
   %{~endif}
   "essential": true,
-  %{if var.task_container_port != 0 || var.task_host_port != 0~}
-  "portMappings": [
-    {
-      %{if var.task_host_port != 0~}
-      "hostPort": ${var.task_host_port},
-      %{~endif}
-      %{if var.task_container_port != 0~}
-      "containerPort": ${var.task_container_port},
-      %{~endif}
-      "protocol":"tcp"
-    }
-  ],
-  %{~endif}
+  "portMappings": ${jsonencode(var.task_container_port_mappings)},
   "logConfiguration": {
     "logDriver": "awslogs",
     "options": {

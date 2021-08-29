@@ -55,6 +55,7 @@ variable "task_container_assign_public_ip" {
 variable "task_container_port" {
   description = "The port number on the container that is bound to the user-specified or automatically assigned host port"
   type        = number
+  default = 0
 }
 
 variable "task_host_port" {
@@ -120,6 +121,11 @@ variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = map(string)
   default     = {}
+}
+
+variable "task_container_port_mappings" {
+  type        = list(map(number))
+  default     = [{}]
 }
 
 variable "deployment_minimum_healthy_percent" {
@@ -278,6 +284,5 @@ variable "enable_execute_command" {
 }
 
 variable "additional_containers" {
-  type = list(any)
   default = []
 }
